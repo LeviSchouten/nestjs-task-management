@@ -1,8 +1,8 @@
-import { EntityRepository, Repository } from "typeorm";
-import { CreateTaskDto } from "./dto/create-task.dto";
-import { GetTasksFilterDto } from "./dto/get-tasks-filter.dto";
-import { TaskStatus } from "./task-status.enum";
-import { Task } from "./task.entity";
+import { EntityRepository, Repository } from 'typeorm';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { TaskStatus } from './task-status.enum';
+import { Task } from './task.entity';
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> {
@@ -15,7 +15,10 @@ export class TaskRepository extends Repository<Task> {
     }
 
     if (search) {
-      query.andWhere('(task.title LIKE :search OR task.description LIKE :search)', { search: `%${search}%` })
+      query.andWhere(
+        '(task.title LIKE :search OR task.description LIKE :search)',
+        { search: `%${search}%` },
+      );
     }
 
     const tasks = await query.getMany();
@@ -29,7 +32,7 @@ export class TaskRepository extends Repository<Task> {
     task.title = title;
     task.description = description;
     task.status = TaskStatus.OPEN;
-    await task.save()
+    await task.save();
 
     return task;
   }
